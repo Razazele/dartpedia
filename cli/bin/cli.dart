@@ -1,16 +1,21 @@
 import 'package:cli/cli.dart' as cli;
 import 'dart:io';
+
+//Constantes se ejecutan enseguida al momento de compilar
 const version = '0.0.1';
 
-void main(List<String> arguments) {
+//Signo ? representa que puede ser null el string, como en TS
+void main(List<String>? arguments) {
 
   if (arguments.isEmpty || arguments.first == 'help') {
     printUsage();
   }
   else if (arguments.first == 'version') {
+    //El simbolo $ toma las variables dentro del codigo (Interpolacion de strings)
     print('Dartpedia CLI version $version');
   }
   else if (arguments.first == 'search') {
+      //Sublist toma todo desde el indice 1 en adelante, no solo un elemento
       final inputArgs = arguments.length > 1 ? arguments.sublist(1) : null;
       searchWikipedia(inputArgs);
   }
@@ -26,6 +31,7 @@ void printUsage () {
 }
 
 void searchWikipedia(List<String>? arguments) {
+  //Variables final solo se les asigna valor una vez
   final String articleTitle;
 
   if (arguments == null || arguments.isEmpty) {
