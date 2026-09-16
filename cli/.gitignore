@@ -1,0 +1,16 @@
+# Archivos y carpetas generados por Dart
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+
+# Historial y logs de desarrollo
+.html5lite/
+*.log
+
+# Configuraciones de tu editor (Visual Studio Code o Android Studio / IntelliJ)
+.vscode/
+.idea/
+*.iml
+.DS_Store
