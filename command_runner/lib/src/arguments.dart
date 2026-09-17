@@ -4,7 +4,7 @@ class Option {
     Option(
     this.name, 
     {
-        required this.type
+        required this.type,
         this.help,
         this.abbr,
         this.defaultValue,
