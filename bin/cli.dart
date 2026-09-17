@@ -1,13 +1,11 @@
 import 'package:command_runner/command_runner.dart';
 
-void main() {
-  final verboseOption = Option(
-    'verbose',
-    type: OptionType.flag,
-    abbr: 'v',
-    help: 'Display extra logging information.',
-  );
-
-  print('Defined option: ${verboseOption.name}');
-  print('Usage: ${verboseOption.usage}');
+const version = '0.0.1';
+void main(List<String> arguments) {
+  /* The cascade notation ..addCommand(...) calls addCommand 
+  on the newly constructed 
+  CommandRunner and returns that runner instance, enabling 
+  concise method chaining before passing arguments to run().*/
+  var commandRunner = CommandRunner()..addCommand(HelpCommand());
+  commandRunner.run(arguments);
 }

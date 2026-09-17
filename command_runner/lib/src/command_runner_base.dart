@@ -1,9 +1,39 @@
-// TODO: Put public facing types in this file.
+import 'dart:collection';
+import 'dart:io';
 
-/// Checks if you are awesome. Spoiler: you are.
+import 'arguments.dart';
+
 class CommandRunner {
-  //Corre la logica de command-line con los argumentos dados
+  final Map<String, Command> _commands = <String, Command>{};
+
+  UnmodifiableSetView<Command> get commands =>
+      ///El spread operator mapea los valores del _commands privado en un nuevo set, previniendo que las llamadas
+      ///modifiquen el map interno
+      UnmodifiableSetView<Command>(<Command>{..._commands.values});
+
   Future<void> run(List<String> input) async {
-    print('CommandRunner received arguments: $input');
+    final ArgResults results = parse(input);
+    if (results.command != null) {
+      //El ! de results.command! indica que el command definitvamente no es nulo debido a la verificacion anterior
+      Object? output = await results.command!.run(results);
+      print(output.toString());
+    }
+  }
+
+  void addCommand(Command command) {
+    _commands[command.name] = command;
+    //Asigna la instancia runner al comando cuando se registra, completando la promesa hecha por la variable late en Command
+    command.runner = this;
+  }
+
+  ArgResults parse(List<String> input) {
+    var results = ArgResults();
+    results.command = _commands[input.first];
+    return results;
+  }
+
+  String get usage {
+    final exeFile = Platform.script.path.split('/').last;
+    return 'Usage: dart bin/$exeFile <command> [commandArg?] [...options?]';
   }
 }

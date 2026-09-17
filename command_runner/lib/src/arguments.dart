@@ -42,7 +42,7 @@ class Option extends CliElement {
 }
 
 class ArgResults {
-  String? command;
+  Command? command;
   String? commandArg;
   //options map (Map<Option, Object?>): Associates each Option instance with its parsed user input.
   Map<Option, Object?> options = {};
@@ -144,5 +144,15 @@ abstract class Command extends CliElement {
         type: OptionType.option,
       ),
     );
+  }
+
+  //FutureOr permite al metodo retornar un valor sincrono o un future para operaciones asincronas
+  //Esta linea define el metodo abstract donde la logica de un comando de ejecucion vive
+  FutureOr<Object?> run(ArgResults args);
+
+  //Formatea el nombre del comando y descripcion para el output de ayuda del CLI
+  @override
+  String get usage {
+    return '$name: $description';
   }
 }
