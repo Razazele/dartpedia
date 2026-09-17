@@ -1,13 +1,17 @@
 import 'package:cli/cli.dart' as cli;
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:command_runner/command_runner.dart';
 //Constantes se ejecutan enseguida al momento de compilar
 const version = '0.0.1';
 
 //Signo ? representa que puede ser null el string, como en TS
-void main(List<String> arguments) {
+void main(List<String> arguments) async {
 
-  if (arguments.isEmpty || arguments.first == 'help') {
+  var runner = CommandRunner() ;
+  await runner.run(arguments);
+
+  /*if (arguments.isEmpty || arguments.first == 'help') {
     printUsage();
   }
   else if (arguments.first == 'version') {
@@ -21,7 +25,7 @@ void main(List<String> arguments) {
   }
   else {
     printUsage();
-  }
+  }*/
   
 }
 
