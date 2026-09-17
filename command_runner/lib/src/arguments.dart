@@ -107,4 +107,42 @@ abstract class Command extends CliElement {
 
   @override
   String? valueHelp;
+  //Options con guion bajo hace la varible privada para la libreria, previniendo modificaciones externas
+  final List<Option> _options = [];
+  //Expone una vista readonly the las opciones del comando, asegurando que quienes la llamen no puedan modificar o mutar el estado directamente
+  UnmodifiableSetView<Option> get options =>
+      UnmodifiableSetView(_options.toSet());
+
+  //Metodos para crear y registrar Opciones validas al command
+  void addFlag(String name, {String? help, String? abbr, String? valueHelp}) {
+    _options.add(
+      Option(
+        name,
+        help: help,
+        abbr: abbr,
+        defaultValue: false,
+        valueHelp: valueHelp,
+        type: OptionType.flag,
+      ),
+    );
+  }
+
+  void addOption(
+    String name, {
+    String? help,
+    String? abbr,
+    String? defaultValue,
+    String? defaultHelp,
+  }) {
+    _options.add(
+      Option(
+        name,
+        help: help,
+        abbr: abbr,
+        defaultValue: defaultValue,
+        valueHelp: valueHelp,
+        type: OptionType.option,
+      ),
+    );
+  }
 }
