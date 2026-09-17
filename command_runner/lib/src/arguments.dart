@@ -1,3 +1,8 @@
+import 'dart:async';
+import 'dart:collection';
+
+import 'command_runner_base.dart';
+
 enum OptionType { flag, option }
 
 //Se vuelve un subtipo de CliElement, una clase abstracta pensada para ser usada como una extension en varias clases
@@ -82,4 +87,24 @@ abstract class CliElement {
   String? get valueHelp;
 
   String get usage;
+}
+
+abstract class Command extends CliElement {
+  @override
+  String get name;
+
+  String get description;
+  bool get requiresArgument => false;
+
+  //Late promete a dart que esta variable ya esta asignada antes de de leerse
+  late CommandRunner runner;
+
+  @override
+  String? help;
+
+  @override
+  String? defaultValue;
+
+  @override
+  String? valueHelp;
 }
