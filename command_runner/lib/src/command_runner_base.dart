@@ -22,11 +22,24 @@ class CommandRunner {
   FutureOr<void> Function(Object)? onError;
 
   Future<void> run(List<String> input) async {
-    final ArgResults results = parse(input);
-    if (results.command != null) {
-      //El ! de results.command! indica que el command definitvamente no es nulo debido a la verificacion anterior
-      Object? output = await results.command!.run(results);
-      print(output.toString());
+    //Step 6 agregado try/catch
+    try {
+      final ArgResults results = parse(input);
+      if (results.command != null) {
+        //El ! de results.command! indica que el command definitvamente no es nulo debido a la verificacion anterior
+        Object? output = await results.command!.run(results);
+        print(output.toString());
+      }
+      //el on exception asegura que solo tome verdaderas excepciones
+      //Los bugs de codigo los propagara para que puedas arreglarlos
+    } on Exception catch (exception) {
+      if (onError != null) {
+        //Devuelve el error con el callback customizado
+        onError!(exception);
+      } else {
+        //Mantiene el error y stack trace original
+        rethrow;
+      }
     }
   }
 
