@@ -7,6 +7,8 @@ class ArgumentException extends FormatException {
   //fue descubierto
   final String? argumentName;
 
+  //Super se ocupa para dar valor a las propiedades obtenidas de la clase padre
+  //Los campos en corchetes [] son opcionales
   ArgumentException(
     super.message, [
     this.command,
