@@ -1,15 +1,25 @@
 import 'dart:collection';
 import 'dart:io';
+import 'dart:async';
+
+import 'exceptions.dart';
 
 import 'arguments.dart';
 
 class CommandRunner {
+  //Constructor que acepta el callback opcional, en caso de que
+  //Los usuarios del paquete quieran customizarlo
+  CommandRunner({this.onError});
+
   final Map<String, Command> _commands = <String, Command>{};
 
   UnmodifiableSetView<Command> get commands =>
       ///El spread operator mapea los valores del _commands privado en un nuevo set, previniendo que las llamadas
       ///modifiquen el map interno
       UnmodifiableSetView<Command>(<Command>{..._commands.values});
+
+  //Propiedad onError
+  FutureOr<void> Function(Object)? onError;
 
   Future<void> run(List<String> input) async {
     final ArgResults results = parse(input);
